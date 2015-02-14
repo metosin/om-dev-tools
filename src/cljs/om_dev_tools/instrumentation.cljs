@@ -110,4 +110,4 @@
 
 (defcomponent stats-panel [{:keys [component-stats]}]
   (render [_]
-    (om/build state-view component-stats)))
+    (om/build stats-view component-stats)))
