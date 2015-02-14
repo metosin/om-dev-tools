@@ -9,7 +9,7 @@
   {:component-stats {}
    :state-tree-state {}
    :current :state-tree
-   :open? true})
+   :open? false})
 
 (defn root
   "Calls om/root but also initiates om-dev-tools.
