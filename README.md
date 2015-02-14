@@ -17,7 +17,7 @@ also manually use provided stuff and e.g. use your own UI.
 ### Styles
 
 Jar should contain files `om-dev-tools/om-dev-tools.css` and `om-dev-tools/om-dev-tools.less`.
-You can either serve the css files and refer than from your `index.html`.
+You can serve the css files and refer than from your `index.html`.
 If you are using LESS tool which reads imports from classpath,
 like [boot-less](https://github.com/Deraen/boot-less)
 or [lein-less4j](https://github.com/Deraen/lein-less4j),

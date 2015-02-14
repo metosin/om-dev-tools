@@ -1,4 +1,4 @@
-(defproject metosin/om-dev-tools "0.1.2-SNAPSHOT"
+(defproject metosin/om-dev-tools "0.1.2"
   :description "Development tool panel for Om"
   :url "https://github.com/metosin/om-dev-tools"
   :license {:name "Eclipse Public License"
@@ -21,4 +21,7 @@
   {:dev
    {:source-paths ["dev-src/clj"]
     :dependencies [[org.webjars/bootstrap "3.3.2"]]
-    :plugins [[lein-less4j "0.1.2-SNAPSHOT"]]}})
+    :plugins [[lein-less4j "0.1.3-SNAPSHOT"]]}}
+
+  :auto-clean false
+  :aliases {"build" ["do" ["clean"] ["less4j" "once"] ["jar"]]})
