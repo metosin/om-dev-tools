@@ -11,8 +11,9 @@
 (def default-views
   {:state-tree {:label "State"
                 :component (fn [state opts]
-                             [:div.om-dev-tools-state-tree (om/build state-tree/state-view {:state-tree-state (:state-tree-state state)
-                                                              :app-state (om/root-cursor (:app-state opts))})])}
+                             [:div.om-dev-tools-state-tree
+                              (om/build state-tree/state-view {:state-tree-state (:state-tree-state state)
+                                                               :app-state (om/root-cursor (:app-state opts))})])}
    :instrumentation {:label "Om instrumentation"
                      :component (fn [state _] (om/build instrumentation/stats-view (:component-stats state)))}})
 
