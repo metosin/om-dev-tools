@@ -3,17 +3,17 @@
 rev=$(git rev-parse HEAD)
 
 if [[ ! -d gh-pages ]]; then
-    git clone --branch gh-pages git@github.com:metosin/lomakkeet.git gh-pages
+    git clone --branch gh-pages $(git config --get remote.origin.url) gh-pages
 fi
 
 (
 cd gh-pages
-git pull
+git pull origin gh-pages
 )
 
 (
 cd example
-lein cljsbuild once adv
+lein do less4j once, cljsbuild once adv
 )
 
 cp -r example/resources/public/* gh-pages

@@ -6,7 +6,6 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2850"]
                  [metosin/om-dev-tools "0.1.0-SNAPSHOT"]
-                 [metosin/potpuri "0.2.1"]
 
                  [org.webjars/bootstrap "3.3.2"]
 
@@ -27,7 +26,7 @@
                   :compiler {:main "example.main"
                              :output-to "target/cljsbuild-adv/public/js/app.js"
                              :output-dir "target/cljsbuild-adv/public/js/out"
-                             :source-map "target/cljsbuild-adv/public/js/out.js.map"
+                             :source-map "target/cljsbuild-adv/public/js/app.js.map"
                              :optimizations :advanced
                              :pretty-print false}}}}
 
