@@ -107,3 +107,7 @@
                  [:td {:className "number" } max-render-ms]
                  [:td {:className "number" } min-render-ms]
                  [:td {:className "number" } std-dev]])]]]))])))
+
+(defcomponent stats-panel [{:keys [component-stats]}]
+  (render [_]
+    (om/build state-view component-stats)))

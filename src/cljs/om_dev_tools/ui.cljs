@@ -8,20 +8,16 @@
             [om-dev-tools.state-tree :as state-tree]
             [goog.string :as gs]))
 
-(def default-views
+(def default-panels
   {:state-tree {:label "State"
-                :component (fn [state owner opts]
-                             [:div.om-dev-tools-state-tree
-                              (let [app-state (om/observe owner (om/ref-cursor (om/root-cursor (:app-state opts))))]
-                                (om/build state-tree/state-view {:state-tree-state (:state-tree-state state)
-                                                                 :app-state app-state}))])}
+                :component state-tree/state-panel}
    :instrumentation {:label "Om instrumentation"
-                     :component (fn [state _ _] (om/build instrumentation/stats-view (:component-stats state)))}})
+                     :component instrumentation/stats-panel}})
 
 (defcomponent dev-tools
-  [{:keys [open? current component-stats] :as state}
+  [{:keys [open? current] :as state}
    owner
-   {:keys [views app-state] :as opts}]
+   {:keys [panels] :as opts}]
   (render [_]
     ; FIXME:
     ; NOTE: Will break other stuff which might set body class
@@ -30,10 +26,10 @@
     (html
       (if open?
         ; FIXME: Cljs/om-tools breaks if this is named views
-        (let [all-views (merge default-views)]
+        (let [all-panels (merge default-panels panels)]
           [:div.om-dev-tools
            [:ul.nav.nav-tabs
-            (for [[k {:keys [label]}] all-views]
+            (for [[k {:keys [label]}] all-panels]
               [:li
                {:class (if (= (:current state) k) "active")}
                [:a {:on-click #(om/update! state :current k)} label]])
@@ -41,7 +37,7 @@
              [:button.close
               {:onClick #(om/transact! state :open? not)}
               [:span "×"]]]]
-           ((:component (get all-views current)) state owner opts)])
+           (om/build (:component (get all-panels current)) state {:opts opts})])
         [:button.pull-right.om-dev-tools-btn
          {:onClick #(om/transact! state :open? not)}
          "dev"]))))

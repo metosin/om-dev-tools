@@ -33,7 +33,16 @@
     (instance? goog.date.Date v) [:span (str v) [:span.type "localdate"]]
     :default [:span (str v)]))
 
-(defcomponent state-view [{:keys [state-tree-state app-state]} owner]
+(defcomponent state-view
+  [{:keys [state-tree-state app-state]} owner opts]
   (render [_]
     (html
-      (tree state-tree-state app-state []))))
+      [:div.om-dev-tools-state-tree
+       (tree state-tree-state app-state [])])))
+
+(defcomponent state-panel
+  [{:keys [state-tree-state]} owner opts]
+  (render [_]
+    (let [app-state (om/observe owner (om/ref-cursor (om/root-cursor (:app-state opts))))]
+      (om/build state-view {:app-state app-state
+                            :state-tree-state state-tree-state}))))
