@@ -29,8 +29,8 @@
 
     (string? v) [:pre "\"" v "\""]
     (nil? v)    [:i "nil"]
-    (instance? goog.date.UtcDateTime v) [:span v [:span.type "datetime"]]
-    (instance? goog.date.Date v) [:span v [:span.type "localdate"]]
+    (instance? goog.date.UtcDateTime v) [:span (str v) [:span.type "datetime"]]
+    (instance? goog.date.Date v) [:span (str v) [:span.type "localdate"]]
     :default [:span (str v)]))
 
 (defcomponent state-view [{:keys [state-tree-state app-state]} owner]
