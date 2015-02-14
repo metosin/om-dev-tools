@@ -35,7 +35,7 @@
          :source-map true}
 
   :figwheel {:http-server-root "public"
-             :server-port 3450
+             :server-port 3451
              :css-dirs ["target/generated/css/public"]
              :repl false}
 

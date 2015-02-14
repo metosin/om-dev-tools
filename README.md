@@ -25,9 +25,11 @@ you can `@import "om-dev-tools/om-dev-tools.less";`.
 
 - History navigation ([om-dev-component](https://github.com/ioRekz/om-dev-component))
 - Copy & paste state
+- Would it be possible to run (some parts of) this on Chrome dev tools?
 
 ## TODO
 
+- State tree should probably use a protocol to determine how to display different types
 - Use as few deps as possible
   - [ ] Remove cljs-time
   - [ ] Remove om-tools and sablono, or maybe just sablono?
