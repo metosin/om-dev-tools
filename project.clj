@@ -1,6 +1,6 @@
-(defproject metosin/om-dev-tools "0.1.0"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject metosin/om-dev-tools "0.1.1"
+  :description "Development tool panel for Om"
+  :url "https://github.com/metosin/om-dev-tools"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :source-paths ["src/cljs"]

@@ -1,5 +1,7 @@
 # Om-dev-tools
 
+[![Clojars Project](http://clojars.org/metosin/om-dev-tools/latest-version.svg)](http://clojars.org/metosin/om-dev-tools)
+
 Some stuff I have found useful with developing Om applications.
 Om instrumentation stuff is originally from Circle CI: [Instrumenting
 Om Component](https://dwwoelfel.github.io/instrumenting-om-components.html).

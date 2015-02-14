@@ -3,5 +3,5 @@ resources/public/js
 .nrepl*
 .lein*
 gh-pages
-pom.xml
+pom.xml*
 figwheel_server.log
