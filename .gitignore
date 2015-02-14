@@ -1,0 +1,7 @@
+target
+resources/public/js
+.nrepl*
+.lein*
+gh-pages
+pom.xml
+figwheel_server.log
