@@ -10,12 +10,13 @@
 
 (def default-views
   {:state-tree {:label "State"
-                :component (fn [state opts]
+                :component (fn [state owner opts]
                              [:div.om-dev-tools-state-tree
-                              (om/build state-tree/state-view {:state-tree-state (:state-tree-state state)
-                                                               :app-state (om/root-cursor (:app-state opts))})])}
+                              (let [app-state (om/observe owner (om/ref-cursor (om/root-cursor (:app-state opts))))]
+                                (om/build state-tree/state-view {:state-tree-state (:state-tree-state state)
+                                                                 :app-state app-state}))])}
    :instrumentation {:label "Om instrumentation"
-                     :component (fn [state _] (om/build instrumentation/stats-view (:component-stats state)))}})
+                     :component (fn [state _ _] (om/build instrumentation/stats-view (:component-stats state)))}})
 
 (defcomponent dev-tools
   [{:keys [open? current component-stats] :as state}
@@ -40,7 +41,7 @@
              [:button.close
               {:onClick #(om/transact! state :open? not)}
               [:span "×"]]]]
-           ((:component (get all-views current)) state opts)])
+           ((:component (get all-views current)) state owner opts)])
         [:button.pull-right.om-dev-tools-btn
          {:onClick #(om/transact! state :open? not)}
          "dev"]))))
