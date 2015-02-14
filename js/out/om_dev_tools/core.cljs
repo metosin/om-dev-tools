@@ -9,7 +9,7 @@
   {:component-stats {}
    :state-tree-state {}
    :current :state-tree
-   :open? true})
+   :open? false})
 
 (defn root
   "Calls om/root but also initiates om-dev-tools.
@@ -19,7 +19,7 @@
    :dev-state     - (required) a atom containing dev tools state."
   [f value {:keys [dev-target dev-state] :as options}]
   {:pre [dev-target dev-state]}
-  (let [inst-methods (instrumentation/instrumentation-methods (:component-stats (om/root-cursor dev-state)))]
+  (let [inst-methods (instrumentation/instrumentation-methods dev-state)]
     (om/root f value (-> options
                          (dissoc :dev-target :dev-state)
                          (assoc :instrument (fn [f cursor m]

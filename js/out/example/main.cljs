@@ -13,6 +13,7 @@
                       :example {:text "hello world"}}))
 
 (defonce dev-state (atom (-> (dev/empty-state)
+                             (assoc :open? true)
                              (assoc-in [:state-tree-state :example] {}))))
 
 (defcomponent example

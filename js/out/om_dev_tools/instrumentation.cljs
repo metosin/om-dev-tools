@@ -12,40 +12,39 @@
     (assert id)
     id))
 
-; These access state through cursor so instrumentation doesn't need to know where state is stored
-
 (defn wrap-will-update
   "Tracks last call time of componentWillUpdate for each component, then calls
    the original componentWillUpdate."
-  [cursor f]
+  [state f]
   (fn [next-props next-state]
     (this-as this
-             (om/transact! cursor  [(react-id this)] #(merge % {:display-name ((aget this "getDisplayName"))
-                                                    :last-will-update (time/now)}))
+      (swap! state update-in [:component-stats (react-id this)] #(merge % {:display-name ((aget this "getDisplayName"))
+                                                          :last-will-update (time/now)}))
       (.call f this next-props next-state))))
 
 (defn wrap-did-update
   "Tracks last call time of componentDidUpdate for each component and updates
    the render times (using start time provided by wrap-will-update), then
    calls the original componentDidUpdate."
-  [cursor f]
+  [state f]
   (fn [prev-props prev-state]
     (this-as this
-      (om/transact! cursor  [(react-id this)] (fn [stats]
-               (let [now (time/now)]
-                 (-> stats
-                     (assoc :last-did-update now)
-                     (update-in [:render-ms] (fnil conj [])
-                                (if (time/after? now (:last-will-update stats))
-                                  (time/in-millis (time/interval (:last-will-update stats) now))
-                                  0))))))
+      (swap! state update-in [:component-stats (react-id this)]
+        (fn [stats]
+          (let [now (time/now)]
+            (-> stats
+                (assoc :last-did-update now)
+                (update-in [:render-ms] (fnil conj [])
+                           (if (time/after? now (:last-will-update stats))
+                             (time/in-millis (time/interval (:last-will-update stats) now))
+                             0))))))
       (.call f this prev-props prev-state))))
 
-(defn instrumentation-methods [cursor]
+(defn instrumentation-methods [state]
   (om/specify-state-methods!
     (-> om/pure-methods
-        (update-in [:componentWillUpdate] (partial wrap-will-update cursor))
-        (update-in [:componentDidUpdate] (partial wrap-did-update cursor))
+        (update-in [:componentWillUpdate] (partial wrap-will-update state))
+        (update-in [:componentDidUpdate] (partial wrap-did-update state))
         (clj->js))))
 
 (defn avg [coll]
@@ -108,3 +107,7 @@
                  [:td {:className "number" } max-render-ms]
                  [:td {:className "number" } min-render-ms]
                  [:td {:className "number" } std-dev]])]]]))])))
+
+(defcomponent stats-panel [{:keys [component-stats]}]
+  (render [_]
+    (om/build state-view component-stats)))
