@@ -27,10 +27,11 @@
     (set! js/window.document.body.className (if open? "dev" ""))
     (html
       (if open?
-        (let [views (merge default-views)]
+        ; FIXME: Cljs/om-tools breaks if this is named views
+        (let [all-views (merge default-views)]
           [:div.om-dev-tools
            [:ul.nav.nav-tabs
-            (for [[k {:keys [label]}] views]
+            (for [[k {:keys [label]}] all-views]
               [:li
                {:class (if (= (:current state) k) "active")}
                [:a {:on-click #(om/update! state :current k)} label]])
@@ -38,7 +39,7 @@
              [:button.close
               {:onClick #(om/transact! state :open? not)}
               [:span "×"]]]]
-           ((:component (get views current)) state opts)])
+           ((:component (get all-views current)) state opts)])
         [:button.pull-right.om-dev-tools-btn
          {:onClick #(om/transact! state :open? not)}
          "dev"]))))
