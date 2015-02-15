@@ -1,4 +1,4 @@
-(defproject metosin/om-dev-tools "0.1.3-SNAPSHOT"
+(defproject metosin/om-dev-tools "0.1.4-SNAPSHOT"
   :description "Development tool panel for Om"
   :url "https://github.com/metosin/om-dev-tools"
   :license {:name "Eclipse Public License"
