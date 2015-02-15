@@ -385,7 +385,7 @@ om_dev_tools.instrumentation.t21318.prototype.om$core$IRender$render$arity$1 = (
 return (function (_){
 var self__ = this;
 var ___$1 = this;
-return om.core.build.cljs$core$IFn$_invoke$arity$2(om_dev_tools.instrumentation.state_view,self__.component_stats);
+return om.core.build.cljs$core$IFn$_invoke$arity$2(om_dev_tools.instrumentation.stats_view,self__.component_stats);
 });})(map__21317,map__21317__$1,component_stats__$1,G__21315,map__21316,map__21316__$1,component_stats,validate__10780__auto__,ufv___21322,output_schema21299_21323,input_schema21300_21324,input_checker21301_21325,output_checker21302_21326))
 ;
 
