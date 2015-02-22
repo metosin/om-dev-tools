@@ -8,6 +8,17 @@
     (assoc-in v ks nil)
     (assoc-in v ks {})))
 
+(defn- key->string [k]
+  (cond
+    (keyword? k)
+    (let [s (namespace k)
+          n (name k)]
+      (if s
+        (str s "/" n)
+        n))
+
+    :default k))
+
 (defn- tree [state v ks]
   (cond
     (coll? v)
@@ -17,12 +28,12 @@
                    (zipmap (range) v))
            :let [ks (conj ks k)]]
        [:li
-        {:key k
+        {:key (key->string k)
          :class [(if (coll? v) "coll" "single") (if (get-in state ks) "open" "closed")]}
         [:strong
          {:on-click #(om/transact! state (partial toggle ks))}
          (if (keyword? k)
-           (name k)
+           (key->string k)
            k)] ": "
         (if (or (not (coll? v)) (get-in state ks))
           (tree state v ks))])]

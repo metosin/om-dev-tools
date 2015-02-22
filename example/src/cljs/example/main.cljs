@@ -8,7 +8,8 @@
 
 (defonce state (atom {:current-page {:id :index}
                       :user nil
-                      :index {:items [1 2 3]
+                      :index {:test/items 5
+                              :items [1 2 3]
                               :foobar "    abc   "}
                       :example {:text "hello world"}}))
 
