@@ -18,8 +18,10 @@
   [state f]
   (fn [next-props next-state]
     (this-as this
-      (swap! state update-in [:component-stats (react-id this)] #(merge % {:display-name ((aget this "getDisplayName"))
-                                                          :last-will-update (time/now)}))
+      (swap! state update-in [:component-stats (react-id this)]
+             (fn [x]
+               (merge x {:display-name ((aget this "getDisplayName"))
+                         :last-will-update (time/now)})))
       (.call f this next-props next-state))))
 
 (defn wrap-did-update
@@ -30,14 +32,14 @@
   (fn [prev-props prev-state]
     (this-as this
       (swap! state update-in [:component-stats (react-id this)]
-        (fn [stats]
-          (let [now (time/now)]
-            (-> stats
-                (assoc :last-did-update now)
-                (update-in [:render-ms] (fnil conj [])
-                           (if (time/after? now (:last-will-update stats))
-                             (time/in-millis (time/interval (:last-will-update stats) now))
-                             0))))))
+             (fn [stats]
+               (let [now (time/now)]
+                 (-> stats
+                     (assoc :last-did-update now)
+                     (update-in [:render-ms] (fnil conj [])
+                                (if (time/after? now (:last-will-update stats))
+                                  (time/in-millis (time/interval (:last-will-update stats) now))
+                                  0))))))
       (.call f this prev-props prev-state))))
 
 (defn instrumentation-methods [state]
