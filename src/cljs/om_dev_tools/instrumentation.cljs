@@ -1,13 +1,13 @@
 (ns om-dev-tools.instrumentation
   (:require [cljs-time.core :as time]
             [cljs-time.format :as time-format]
-            [om.core :as om :include-macros true]
-            [om-tools.core :refer-macros [defcomponent]]
+            [om.core :as om]
             [sablono.core :refer-macros [html]]))
 
 ;; Source: https://github.com/circleci/frontend/blob/2f58976e57000c448a22440e69573c4f0b7c581b/frontend/instrumentation.cljs
 
 (defn react-id [x]
+  ; FIXME: This is not accesible in React 0.13
   (let [id (aget x "_rootNodeID")]
     (assert id)
     id))
@@ -55,8 +55,8 @@
   (let [a (avg coll)]
     (Math/sqrt (avg (map #(Math/pow (- % a) 2) coll)))))
 
-(defcomponent stats-view [data owner]
-  (render [_]
+(defn stats-view [data owner]
+  (om/component
     (html
       [:div
        (when-not (om/get-state owner :shown?)
@@ -108,6 +108,6 @@
                  [:td {:className "number" } min-render-ms]
                  [:td {:className "number" } std-dev]])]]]))])))
 
-(defcomponent stats-panel [{:keys [component-stats]}]
-  (render [_]
-    (om/build stats-view component-stats)))
+(defn stats-panel [state]
+  (om/component
+    (om/build stats-view (:component-stats state))))

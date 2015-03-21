@@ -1,7 +1,6 @@
 (ns example.main
   (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [om.core :as om :include-macros true]
-            [om-tools.core :refer-macros [defcomponent]]
+  (:require [om.core :as om]
             [cljs.core.async :refer [put!]]
             [sablono.core :refer-macros [html]]
             [om-dev-tools.core :as dev]))
@@ -17,17 +16,15 @@
                              (assoc :open? true)
                              (assoc-in [:state-tree-state :example] {}))))
 
-(defcomponent example
-  [state owner]
-  (render [_]
+(defn example [state owner]
+  (om/component
     (html
       [:input.form-control
        {:value (:text state)
         :on-change #(om/update! state :text (.. % -target -value))}])))
 
-(defcomponent app-view
-  [app-state owner]
-  (render [_]
+(defn app-view [app-state owner]
+  (om/component
     (html
       [:div
        [:h1 "Example "

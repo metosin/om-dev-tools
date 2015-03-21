@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2850"]
+                 [org.clojure/clojurescript "0.0-3126"]
                  [metosin/om-dev-tools "0.1.7-SNAPSHOT"]
 
                  [org.webjars/bootstrap "3.3.2"]
@@ -44,7 +44,7 @@
    {:source-paths ["dev-src/clj"]
     :plugins [[lein-cljsbuild "1.0.4"]
               [lein-figwheel "0.2.4-SNAPSHOT"]
-              [lein-less4j "0.1.3-SNAPSHOT"]
+              [deraen/lein-less4j "0.2.1"]
               [lein-pdo "0.1.1"]]
 
     :resource-paths ["target/cljsbuild-dev"]}

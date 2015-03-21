@@ -1,6 +1,5 @@
 (ns om-dev-tools.state-tree
   (:require [om.core :as om]
-            [om-tools.core :refer-macros [defcomponent]]
             [sablono.core :refer-macros [html]]))
 
 (defn- toggle [ks v]
@@ -44,16 +43,14 @@
     (instance? goog.date.Date v) [:span (str v) [:span.type "localdate"]]
     :default [:span (str v)]))
 
-(defcomponent state-view
-  [{:keys [state-tree-state app-state]} owner opts]
-  (render [_]
+(defn state-view [{:keys [state-tree-state app-state]} owner opts]
+  (om/component
     (html
       [:div.om-dev-tools-state-tree
        (tree state-tree-state app-state [])])))
 
-(defcomponent state-panel
-  [{:keys [state-tree-state]} owner opts]
-  (render [_]
+(defn state-panel [{:keys [state-tree-state]} owner opts]
+  (om/component
     (let [app-state (om/observe owner (om/ref-cursor (om/root-cursor (:app-state opts))))]
       (om/build state-view {:app-state app-state
                             :state-tree-state state-tree-state}))))
