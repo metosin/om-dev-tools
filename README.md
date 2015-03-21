@@ -33,8 +33,9 @@ you can `@import "om-dev-tools/om-dev-tools.less";`.
 
 - State tree should probably use a protocol to determine how to display different types
 - Use as few deps as possible
-  - [ ] Remove cljs-time
-  - [ ] Remove om-tools and sablono, or maybe just sablono?
+  - [x] Remove cljs-time
+  - [x] Remove om-tools
+  - [ ] Remove sablono?
   - [ ] Remove bootstrap dependancy from styles
 - Styling could use work
 
