@@ -45,14 +45,13 @@
     (instance? Date v) [:span (str v) [:span.type "Date"]]
     :default [:span (str v)]))
 
-(defn state-view [{:keys [state-tree-state app-state]} owner opts]
+(defn state-view [{:keys [state app-state]} owner opts]
   (om/component
     (html
-      [:div.om-dev-tools-state-tree
-       (tree state-tree-state app-state [])])))
+      [:div.om-dev-tools-state-tree (tree state app-state [])])))
 
-(defn state-panel [{:keys [state-tree-state]} owner opts]
+(defn state-panel [state owner opts]
   (om/component
     (let [app-state (om/observe owner (om/ref-cursor (om/root-cursor (:app-state opts))))]
       (om/build state-view {:app-state app-state
-                            :state-tree-state state-tree-state}))))
+                            :state state}))))

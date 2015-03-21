@@ -9,9 +9,11 @@
 
 (def default-panels
   {:state-tree {:label "State"
-                :component state-tree/state-panel}
+                :component (fn [state opts]
+                             (om/build state-tree/state-panel (:state-tree-state state) {:opts opts}))}
    :instrumentation {:label "Om instrumentation"
-                     :component instrumentation/stats-panel}})
+                     :component (fn [state opts]
+                                  (om/build instrumentation/stats-view (:component-stats state)))}})
 
 (defn dev-tools [{:keys [open? current] :as state} owner {:keys [panels] :as opts}]
   (om/component
@@ -26,13 +28,14 @@
            [:ul.nav.nav-tabs
             (for [[k {:keys [label]}] all-panels]
               [:li
-               {:class (if (= (:current state) k) "active")}
+               {:key k
+                :class (if (keyword-identical? current k) "active")}
                [:a {:on-click #(om/update! state :current k)} label]])
             [:li.pull-right
              [:button.close
               {:onClick #(om/transact! state :open? not)}
               [:span "×"]]]]
-           (om/build (:component (get all-panels current)) state {:opts opts})])
+           ((:component (get all-panels current)) state opts)])
         [:button.pull-right.om-dev-tools-btn
          {:onClick #(om/transact! state :open? not)}
          "dev"]))))
