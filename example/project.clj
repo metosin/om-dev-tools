@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-3126"]
-                 [metosin/om-dev-tools "0.1.7"]
+                 [metosin/om-dev-tools "0.1.8-SNAPSHOT"]
 
                  [org.webjars/bootstrap "3.3.2"]
 
