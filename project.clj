@@ -7,8 +7,7 @@
   :dependencies [[org.clojure/clojure "1.6.0" :scope "provided"]
                  [org.clojure/clojurescript "0.0-3126" :scope "provided"]
                  [org.omcljs/om "0.8.8"]
-                 [sablono "0.3.4"]
-                 [com.andrewmcveigh/cljs-time "0.3.2"]]
+                 [sablono "0.3.4"]]
 
   :less {:source-paths ["src/less" "resources"]
          :target-path "target/classes"}

@@ -1,7 +1,5 @@
 (ns om-dev-tools.instrumentation
-  (:require [cljs-time.core :as time]
-            [cljs-time.format :as time-format]
-            [om.core :as om]
+  (:require [om.core :as om]
             [sablono.core :refer-macros [html]]))
 
 ;; Source: https://github.com/circleci/frontend/blob/2f58976e57000c448a22440e69573c4f0b7c581b/frontend/instrumentation.cljs
@@ -12,6 +10,13 @@
     (assert id)
     id))
 
+(defn- now []
+  (.getTime (js/Date.)))
+
+(defn- display-time [ts]
+  (let [d (js/Date. ts)]
+    (str (.getHours d) ":" (.getMinutes d) ":" (.getSeconds d) "." (.getMilliseconds d))))
+
 (defn wrap-will-update
   "Tracks last call time of componentWillUpdate for each component, then calls
    the original componentWillUpdate."
@@ -21,7 +26,7 @@
       (swap! state update-in [:component-stats (react-id this)]
              (fn [x]
                (merge x {:display-name ((aget this "getDisplayName"))
-                         :last-will-update (time/now)})))
+                         :last-will-update (now)})))
       (.call f this next-props next-state))))
 
 (defn wrap-did-update
@@ -33,12 +38,12 @@
     (this-as this
       (swap! state update-in [:component-stats (react-id this)]
              (fn [stats]
-               (let [now (time/now)]
+               (let [t (now)]
                  (-> stats
-                     (assoc :last-did-update now)
+                     (assoc :last-did-update t)
                      (update-in [:render-ms] (fnil conj [])
-                                (if (time/after? now (:last-will-update stats))
-                                  (time/in-millis (time/interval (:last-will-update stats) now))
+                                (if (> t (:last-will-update stats))
+                                  (- t (:last-will-update stats))
                                   0))))))
       (.call f this prev-props prev-state))))
 
@@ -100,10 +105,7 @@
                 [:tr
                  [:td display-name]
                  [:td {:className "number" } render-count]
-                 [:td {:className "number" }
-                  (when last-will-update
-                    (time-format/unparse (time-format/formatters :hour-minute-second)
-                                         last-will-update))]
+                 [:td {:className "number" } (if last-will-update (display-time last-will-update))]
                  [:td {:className "number" } last-render-ms]
                  [:td {:className "number" } average-render-ms]
                  [:td {:className "number" } max-render-ms]

@@ -3,13 +3,17 @@
   (:require [om.core :as om]
             [cljs.core.async :refer [put!]]
             [sablono.core :refer-macros [html]]
-            [om-dev-tools.core :as dev]))
+            [om-dev-tools.core :as dev])
+  (:import [goog.date UtcDateTime DateTime Date]))
 
 (defonce state (atom {:current-page {:id :index}
                       :user nil
                       :index {:test/items 5
                               :items [1 2 3]
                               :foobar "    abc   "}
+                      :dates {:utc-datetime (UtcDateTime.)
+                              :datetime (DateTime.)
+                              :date (Date.)}
                       :example {:text "hello world"}}))
 
 (defonce dev-state (atom (-> (dev/empty-state)

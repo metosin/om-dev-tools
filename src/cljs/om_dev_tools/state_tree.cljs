@@ -1,6 +1,7 @@
 (ns om-dev-tools.state-tree
   (:require [om.core :as om]
-            [sablono.core :refer-macros [html]]))
+            [sablono.core :refer-macros [html]])
+  (:import [goog.date UtcDateTime DateTime Date]))
 
 (defn- toggle [ks v]
   (if (get-in v ks)
@@ -39,8 +40,9 @@
 
     (string? v) [:pre "\"" v "\""]
     (nil? v)    [:i "nil"]
-    (instance? goog.date.UtcDateTime v) [:span (str v) [:span.type "datetime"]]
-    (instance? goog.date.Date v) [:span (str v) [:span.type "localdate"]]
+    (instance? UtcDateTime v) [:span (str v) [:span.type "UtcDateTime"]]
+    (instance? DateTime v) [:span (str v) [:span.type "DateTime"]]
+    (instance? Date v) [:span (str v) [:span.type "Date"]]
     :default [:span (str v)]))
 
 (defn state-view [{:keys [state-tree-state app-state]} owner opts]
